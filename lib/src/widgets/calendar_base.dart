@@ -76,30 +76,27 @@ class _CalendarBaseState extends State<CalendarBase> {
               ),
             );
           },
-          child: SizedBox(
-            height: 300,
-            child: PageView.builder(
-                controller: widget._pageController,
-                itemCount: widget.monthCount,
-                itemBuilder: (context, index) {
-                  final baseDay = _getBaseDay(index);
-                  final visibleRange = _daysInMonth(baseDay);
-                  final visibleDays =
-                      _daysInRange(visibleRange.start, visibleRange.end);
+          child: PageView.builder(
+              controller: widget._pageController,
+              itemCount: widget.monthCount,
+              itemBuilder: (context, index) {
+                final baseDay = _getBaseDay(index);
+                final visibleRange = _daysInMonth(baseDay);
+                final visibleDays =
+                    _daysInRange(visibleRange.start, visibleRange.end);
 
-                  return CalendarTable(
-                    firstDay: widget.firstDay,
-                    lastDay: widget.lastDay,
-                    selectedDay: widget.selectedDay,
-                    sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
-                    onDaySelected: widget.onDaySelected,
-                    focusedMonth: widget.focusedMonth,
-                    visibleDays: visibleDays,
-                    calendarStyle: widget.calendarStyle,
-                    enabledDays: widget.enabledDays,
-                  );
-                }),
-          ),
+                return CalendarTable(
+                  firstDay: widget.firstDay,
+                  lastDay: widget.lastDay,
+                  selectedDay: widget.selectedDay,
+                  sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
+                  onDaySelected: widget.onDaySelected,
+                  focusedMonth: widget.focusedMonth,
+                  visibleDays: visibleDays,
+                  calendarStyle: widget.calendarStyle,
+                  enabledDays: widget.enabledDays,
+                );
+              }),
         ),
       );
     });
