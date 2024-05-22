@@ -11,29 +11,25 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+The Simple Table Calender is used to show a table calender to user where they can select a specific date in range given
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+you can add custom list of dates withn the range you have given to enable only that days.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
 ```dart
-const like = 'sample';
+TableCalender(
+    firstDay: DateTime(2021, 1, 1),
+    lastDay: DateTime(2021, 12, 31),
+    selectedDay: DateTime(2021, 1, 1),
+    onDaySelected: (DateTime day) => print(day),
+  ),
 ```
 
-## Additional information
+<!-- ## Additional information
 
 TODO: Tell users more about the package: where to find more information, how to
 contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+from the package authors, and more. -->
