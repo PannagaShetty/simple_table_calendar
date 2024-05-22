@@ -13,15 +13,11 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-            child: Container(
-          color: Colors.yellow,
-          height: 350,
-          child: TableCalender(
-            firstDay: DateTime(2021, 1, 1),
-            lastDay: DateTime(2021, 12, 31),
-            selectedDay: DateTime(2021, 1, 1),
-            onDaySelected: (DateTime day) => print(day),
-          ),
+            child: TableCalender(
+          firstDay: DateTime(2021, 1, 1),
+          lastDay: DateTime(2021, 12, 31),
+          selectedDay: DateTime(2021, 1, 1),
+          onDaySelected: (DateTime day) => print(day),
         )),
       ),
     );
