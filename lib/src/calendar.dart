@@ -61,58 +61,53 @@ class _TableCalenderState extends State<TableCalender> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Calendar'),
-      ),
-      body: Column(
-        children: <Widget>[
-          CalendarHeader(
-            headerStyle: widget.calendarStyle.headerStyle,
-            focusedMonth: focusedMonth,
-            currentPageIndex: _getMonthCount(widget.firstDay, focusedMonth),
-            maxPageIndex: _getMonthCount(widget.firstDay, widget.lastDay),
-            onBack: () {
-              if (!(focusedMonth.month == widget.firstDay.month &&
-                  focusedMonth.year == widget.firstDay.year)) {
-                setState(() {
-                  focusedMonth = DateTime.utc(
-                      focusedMonth.year, focusedMonth.month - 1, 5);
-                });
-              }
-              _pageController.previousPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-              );
-            },
-            onForward: () {
-              if (!(focusedMonth.month == widget.lastDay.month &&
-                  focusedMonth.year == widget.lastDay.year)) {
-                setState(() {
-                  focusedMonth = DateTime.utc(
-                      focusedMonth.year, focusedMonth.month + 1, 5);
-                });
-              }
-              _pageController.nextPage(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-              );
-            },
-          ),
-          CalendarBase(
-            firstDay: widget.firstDay,
-            lastDay: widget.lastDay,
-            selectedDay: widget.selectedDay,
-            sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
-            onDaySelected: widget.onDaySelected,
-            focusedMonth: focusedMonth,
-            pageController: _pageController,
-            monthCount: _getMonthCount(widget.firstDay, widget.lastDay) + 1,
-            calendarStyle: widget.calendarStyle,
-            enabledDays: widget.enabledDays,
-          ),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        CalendarHeader(
+          headerStyle: widget.calendarStyle.headerStyle,
+          focusedMonth: focusedMonth,
+          currentPageIndex: _getMonthCount(widget.firstDay, focusedMonth),
+          maxPageIndex: _getMonthCount(widget.firstDay, widget.lastDay),
+          onBack: () {
+            if (!(focusedMonth.month == widget.firstDay.month &&
+                focusedMonth.year == widget.firstDay.year)) {
+              setState(() {
+                focusedMonth =
+                    DateTime.utc(focusedMonth.year, focusedMonth.month - 1, 5);
+              });
+            }
+            _pageController.previousPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          },
+          onForward: () {
+            if (!(focusedMonth.month == widget.lastDay.month &&
+                focusedMonth.year == widget.lastDay.year)) {
+              setState(() {
+                focusedMonth =
+                    DateTime.utc(focusedMonth.year, focusedMonth.month + 1, 5);
+              });
+            }
+            _pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          },
+        ),
+        CalendarBase(
+          firstDay: widget.firstDay,
+          lastDay: widget.lastDay,
+          selectedDay: widget.selectedDay,
+          sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
+          onDaySelected: widget.onDaySelected,
+          focusedMonth: focusedMonth,
+          pageController: _pageController,
+          monthCount: _getMonthCount(widget.firstDay, widget.lastDay) + 1,
+          calendarStyle: widget.calendarStyle,
+          enabledDays: widget.enabledDays,
+        ),
+      ],
     );
   }
 
