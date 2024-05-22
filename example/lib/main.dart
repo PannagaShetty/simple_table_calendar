@@ -13,7 +13,8 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-            child: SizedBox(
+            child: Container(
+          color: Colors.yellow,
           height: 350,
           child: TableCalender(
             firstDay: DateTime(2021, 1, 1),
