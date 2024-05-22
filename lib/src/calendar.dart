@@ -63,6 +63,7 @@ class _TableCalenderState extends State<TableCalender> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         CalendarHeader(
           headerStyle: widget.calendarStyle.headerStyle,
