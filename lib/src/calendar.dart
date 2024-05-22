@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:simple_table_calendar/src/customization/calendar_style.dart';
 import 'package:simple_table_calendar/src/shared/utils.dart';
 import 'package:simple_table_calendar/src/widgets/calendar_base.dart';
@@ -95,17 +96,19 @@ class _TableCalenderState extends State<TableCalender> {
             );
           },
         ),
-        CalendarBase(
-          firstDay: widget.firstDay,
-          lastDay: widget.lastDay,
-          selectedDay: widget.selectedDay,
-          sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
-          onDaySelected: widget.onDaySelected,
-          focusedMonth: focusedMonth,
-          pageController: _pageController,
-          monthCount: _getMonthCount(widget.firstDay, widget.lastDay) + 1,
-          calendarStyle: widget.calendarStyle,
-          enabledDays: widget.enabledDays,
+        Flexible(
+          child: CalendarBase(
+            firstDay: widget.firstDay,
+            lastDay: widget.lastDay,
+            selectedDay: widget.selectedDay,
+            sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
+            onDaySelected: widget.onDaySelected,
+            focusedMonth: focusedMonth,
+            pageController: _pageController,
+            monthCount: _getMonthCount(widget.firstDay, widget.lastDay) + 1,
+            calendarStyle: widget.calendarStyle,
+            enabledDays: widget.enabledDays,
+          ),
         ),
       ],
     );

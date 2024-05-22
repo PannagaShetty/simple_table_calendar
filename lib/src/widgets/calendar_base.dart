@@ -4,7 +4,7 @@ import 'package:simple_table_calendar/src/shared/calendar_enum.dart';
 import 'package:simple_table_calendar/src/shared/utils.dart';
 import 'package:simple_table_calendar/src/widgets/calendar_table.dart';
 
-class CalendarBase extends StatelessWidget {
+class CalendarBase extends StatefulWidget {
   const CalendarBase({
     super.key,
     required this.firstDay,
@@ -30,47 +30,84 @@ class CalendarBase extends StatelessWidget {
   final List<DateTime>? enabledDays;
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      onHorizontalDragEnd: (details) {
-        if (details.primaryVelocity! > 0) {
-          _pageController.previousPage(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
-        } else {
-          _pageController.nextPage(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
-        }
-      },
-      child: SizedBox(
-        height: 300,
-        child: PageView.builder(
-            controller: _pageController,
-            itemCount: monthCount,
-            itemBuilder: (context, index) {
-              final baseDay = _getBaseDay(index);
-              final visibleRange = _daysInMonth(baseDay);
-              final visibleDays =
-                  _daysInRange(visibleRange.start, visibleRange.end);
+  State<CalendarBase> createState() => _CalendarBaseState();
+}
 
-              return CalendarTable(
-                firstDay: firstDay,
-                lastDay: lastDay,
-                selectedDay: selectedDay,
-                sixWeekMonthsEnforced: sixWeekMonthsEnforced,
-                onDaySelected: onDaySelected,
-                focusedMonth: focusedMonth,
-                visibleDays: visibleDays,
-                calendarStyle: calendarStyle,
-                enabledDays: enabledDays,
-              );
-            }),
-      ),
-    );
+class _CalendarBaseState extends State<CalendarBase> {
+  late final ValueNotifier<double> _pageHeight;
+  @override
+  void initState() {
+    _pageHeight =
+        ValueNotifier(_getPageHeight(widget.sixWeekMonthsEnforced ? 6 : 5));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      return GestureDetector(
+        onTap: () {},
+        onHorizontalDragEnd: (details) {
+          if (details.primaryVelocity! > 0) {
+            widget._pageController.previousPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            widget._pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        },
+        child: ValueListenableBuilder<double>(
+          valueListenable: _pageHeight,
+          builder: (context, value, child) {
+            final height =
+                constraints.hasBoundedHeight ? constraints.maxHeight : value;
+
+            return AnimatedSize(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                height: height,
+                child: child,
+              ),
+            );
+          },
+          child: SizedBox(
+            height: 300,
+            child: PageView.builder(
+                controller: widget._pageController,
+                itemCount: widget.monthCount,
+                itemBuilder: (context, index) {
+                  final baseDay = _getBaseDay(index);
+                  final visibleRange = _daysInMonth(baseDay);
+                  final visibleDays =
+                      _daysInRange(visibleRange.start, visibleRange.end);
+
+                  return CalendarTable(
+                    firstDay: widget.firstDay,
+                    lastDay: widget.lastDay,
+                    selectedDay: widget.selectedDay,
+                    sixWeekMonthsEnforced: widget.sixWeekMonthsEnforced,
+                    onDaySelected: widget.onDaySelected,
+                    focusedMonth: widget.focusedMonth,
+                    visibleDays: visibleDays,
+                    calendarStyle: widget.calendarStyle,
+                    enabledDays: widget.enabledDays,
+                  );
+                }),
+          ),
+        ),
+      );
+    });
+  }
+
+  double _getPageHeight(int rowCount) {
+    return widget.calendarStyle.weekCellHeight +
+        rowCount * widget.calendarStyle.dayCellHeight;
   }
 
   List<DateTime> _daysInRange(DateTime first, DateTime last) {
@@ -84,11 +121,11 @@ class CalendarBase extends StatelessWidget {
   _getBaseDay(int index) {
     DateTime day;
 
-    day = DateTime.utc(firstDay.year, firstDay.month + index);
-    if (day.isBefore(firstDay)) {
-      day = firstDay;
-    } else if (day.isAfter(lastDay)) {
-      day = lastDay;
+    day = DateTime.utc(widget.firstDay.year, widget.firstDay.month + index);
+    if (day.isBefore(widget.firstDay)) {
+      day = widget.firstDay;
+    } else if (day.isAfter(widget.lastDay)) {
+      day = widget.lastDay;
     }
     return day;
   }
@@ -98,7 +135,7 @@ class CalendarBase extends StatelessWidget {
     final daysBefore = _getDaysBefore(first);
     final firstToDisplay = first.subtract(Duration(days: daysBefore));
 
-    if (sixWeekMonthsEnforced) {
+    if (widget.sixWeekMonthsEnforced) {
       final end = firstToDisplay.add(const Duration(days: 42));
       return DateTimeRange(start: firstToDisplay, end: end);
     }
