@@ -1,6 +1,6 @@
 name: simple_table_calendar
 description: "A Flutter package to provide a simple table calendar with custom styling."
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/PannagaShetty/simple_table_calendar.git
 
 environment:
