@@ -77,7 +77,10 @@ class CalendarTable extends StatelessWidget {
                     final isOutside = day.month != focusedMonth.month;
 
                     if (!isOutside && _isDayInEnabledList(day)) {
-                      onDaySelected(day);
+                      DateTime dayUtc = day.toUtc();
+                      DateTime selectedDayUtc =
+                          DateTime.utc(dayUtc.year, dayUtc.month, dayUtc.day);
+                      onDaySelected(selectedDayUtc);
                       developer.log('selectedDay updated');
                     }
                   },
