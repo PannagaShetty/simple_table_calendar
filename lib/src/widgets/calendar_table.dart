@@ -106,18 +106,21 @@ class CalendarTable extends StatelessWidget {
           weekendDays: [DateTime.saturday, DateTime.sunday]);
       final isFocused = isSameDay(day, selectedDay);
 
-      return SizedBox(
-          height: shorterSide,
-          child: CellContent(
-            isOutside: isOutside,
-            isWeekend: isWeekend,
-            isToday: isToday,
-            isSelected: isFocused,
-            isTodayHighlighted: true,
-            isDisabled: isDisabled,
-            day: day,
-            calendarStyle: calendarStyle,
-          ));
+      return Semantics(
+        label: '${day.day}-${day.month}-${day.year}',
+        child: SizedBox(
+            height: shorterSide,
+            child: CellContent(
+              isOutside: isOutside,
+              isWeekend: isWeekend,
+              isToday: isToday,
+              isSelected: isFocused,
+              isTodayHighlighted: true,
+              isDisabled: isDisabled,
+              day: day,
+              calendarStyle: calendarStyle,
+            )),
+      );
     });
   }
 
